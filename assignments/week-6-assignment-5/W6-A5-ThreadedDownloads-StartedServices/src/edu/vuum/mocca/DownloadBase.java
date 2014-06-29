@@ -70,7 +70,9 @@ public class DownloadBase extends Activity {
      * Gets the URL from the EditText.
      */
     String getUrlString () {
+    	
     	return mEditText.getText().toString();
+    	
     }
     
     /**

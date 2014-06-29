@@ -29,7 +29,7 @@
 	      android:process=":myProcess1"/>
 	
 	  <service android:name="edu.vuum.mocca.DownloadIntentService"
-	      android:process=":myProcess2"/>
+	      android:process=":myProcess1"/>
 	  
 	</application>
 </manifest>

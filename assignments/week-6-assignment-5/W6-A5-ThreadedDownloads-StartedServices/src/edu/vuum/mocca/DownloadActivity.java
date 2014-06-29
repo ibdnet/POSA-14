@@ -1,9 +1,9 @@
 package edu.vuum.mocca;
 
 import java.lang.ref.WeakReference;
-
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -70,7 +70,7 @@ public class DownloadActivity extends DownloadBase {
             // Get an actual reference to the DownloadActivity
             // from the WeakReference.
             final DownloadActivity activity = outerClass.get();
-    		
+            
             // If DownloadActivity hasn't been garbage collected
             // (closed by user), display the sent image.
             if (activity != null) {
@@ -78,6 +78,13 @@ public class DownloadActivity extends DownloadBase {
                 // bitmap that's been downloaded and returned to
                 // the DownloadActivity as a pathname who's Bundle
             	// key is defined by DownloadUtils.PATHNAME_KEY
+            	final String sPathName = msg.getData().getString(DownloadUtils.PATHNAME_KEY);
+            	
+            	if (sPathName != null) {
+	            	activity.runOnUiThread(new Runnable() { public void run() {
+	            		activity.displayBitmap(sPathName);};
+	            	});
+            	}
             }
     	}
     }
@@ -107,7 +114,7 @@ public class DownloadActivity extends DownloadBase {
             // TODO - You fill in here to start the
             // DownloadIntentService with the appropriate Intent
             // returned from the makeIntent() factory method.
-
+        	this.startService(DownloadIntentService.makeIntent(this, handler, getUrlString()));
             which = "Starting DownloadIntentService";
             break;
         
@@ -115,7 +122,7 @@ public class DownloadActivity extends DownloadBase {
             // TODO - You fill in here to start the
             // ThreadPoolDownloadService with the appropriate Intent
             // returned from the makeIntent() factory method.
-
+        	this.startService(ThreadPoolDownloadService.makeIntent(this, handler, getUrlString()));
             which = "Starting ThreadPoolDownloadService";
             break;
         
